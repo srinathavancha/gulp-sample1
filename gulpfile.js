@@ -7,7 +7,8 @@ var gulp = require('gulp'),
 	concat = require('gulp-concat'),
 	rename = require('gulp-rename'),
 	sass = require('gulp-sass'),
-	browserSync = require('browser-sync');
+	browserSync = require('browser-sync'),
+	plumber = require('gulp-plumber');
 
 
 // ////////////////////////////////////////
@@ -26,7 +27,7 @@ gulp.task('scripts', function(){
 	gulp.src(['app/js/**/*.js', '!app/js/**/*.min.js'])
 		.pipe(concat({ path: 'main.min.js', stat: { mode: 0777 }}, {newLine: ';'}))
 		.pipe(uglify())
-		.pipe(gulp.dest('./dist/js'))
+		.pipe(gulp.dest('dist/js'))
 		.pipe(browserSync.reload({stream: true}));
 
 });
@@ -36,15 +37,16 @@ gulp.task('scripts', function(){
 // ////////////////////////////////////////
 gulp.task('sass', function(){
 	return gulp.src('app/scss/style.scss')
+				.pipe(plumber())
 				.pipe(sass())
-				.pipe(gulp.dest('./dist/css'))
+				.pipe(gulp.dest('dist/css'))
 				.pipe(browserSync.reload({stream: true}));
 });
 
 // ////////////////////////////////////////
 // Watch Task
 // ////////////////////////////////////////
-gulp.task('watch', ['browserSync', 'sass'], function(){
+gulp.task('watch', function(){
 	gulp.watch('app/scss/style.scss', ['sass']);
 	gulp.watch('app/js/**/*.js', ['scripts']);
 	gulp.watch('app/index.html', browserSync.reload);
@@ -52,4 +54,4 @@ gulp.task('watch', ['browserSync', 'sass'], function(){
 // ////////////////////////////////////////
 // Default Task
 // ////////////////////////////////////////
-gulp.task('default', ['scripts', 'watch']);
+gulp.task('default', ['scripts', 'sass', 'browserSync', 'watch']);
