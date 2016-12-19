@@ -1,0 +1,34 @@
+$font-stack: Helvetica, sans-serif;
+$primary-color: #000;
+$secondary-color: #cecece;
+
+$firstValue: 92.5%;
+$firstValue: 34px !default;
+
+body {
+	font: 100% $font-stack;
+	background: $primary-color;
+	font-size: $firstValue;
+}
+
+p {
+	color: $secondary-color;
+}
+
+a.myAnchor {
+    color: blue;
+    &:hover {
+        text-decoration: underline;
+    }
+    &:visited {
+        color: purple;
+    }
+}
+
+.container {
+    width: 100%;
+    h1 {
+        color: green;
+    }
+    padding: 10px;
+}
